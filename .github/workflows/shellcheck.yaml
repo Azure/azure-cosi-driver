@@ -25,5 +25,6 @@ jobs:
         severity: warning
         check_together: 'yes'
         disable_matcher: false
-        ignore_paths: vendor release-tools hack
+        ignore_paths: ./vendor ./release-tools
+        scandir: './hack'
         format: gcc
