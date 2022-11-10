@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: objectstorage-provisioner
+  labels:
+    app.kubernetes.io/part-of: container-object-storage-interface
+    app.kubernetes.io/component: driver-azure
+    app.kubernetes.io/version: main
+    app.kubernetes.io/name: cosi-driver-azure
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: container-object-storage-interface
+      app.kubernetes.io/component: driver-azure
+      app.kubernetes.io/version: main
+      app.kubernetes.io/name: cosi-driver-azure
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/part-of: container-object-storage-interface
+        app.kubernetes.io/component: driver-azure
+        app.kubernetes.io/version: main
+        app.kubernetes.io/name: cosi-driver-azure
+    spec:
+      serviceAccountName: objectstorage-provisioner-sa
+      volumes:
+      - name: socket
+        emptyDir: {}
+      - name: azure-cred
+        hostPath:
+          path: /etc/kubernetes/
+          type: DirectoryOrCreate
+      containers:
+      - name: azure-cosi-driver
+        image: $(AZURE_IMAGE_ORG)/azure-cosi-driver:$(AZURE_IMAGE_VERSION)
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /var/lib/cosi
+          name: socket
+        - mountPath: /etc/kubernetes/
+          name: azure-cred
+      - name: objectstorage-provisioner-sidecar
+        image: $(IMAGE_ORG)/objectstorage-sidecar:$(IMAGE_VERSION)
+        imagePullPolicy: Always
+        args:
+        - "--v=5"
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        volumeMounts:
+        - mountPath: /var/lib/cosi
+          name: socket

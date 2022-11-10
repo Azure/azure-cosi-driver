@@ -348,3 +348,13 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Golang and build files
+*.tmp
+.DS_Store
+.build
+*.swp
+travis.yml
+release-tools
+bin
+.idea

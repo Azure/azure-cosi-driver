@@ -1,0 +1,10 @@
+---
+kind: BucketAccess
+apiVersion: objectstorage.k8s.io/v1alpha1
+metadata:
+  name: cosi-sas-con
+spec:
+  bucketClaimName: cosi-driver-con
+  bucketAccessClassName: cosi-sas-class-con
+  credentialsSecretName: bucketcredscon
+  protocol: azure
