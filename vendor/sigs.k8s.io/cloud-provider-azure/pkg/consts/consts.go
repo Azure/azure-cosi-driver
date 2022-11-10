@@ -184,6 +184,16 @@ const (
 	BackoffJitterDefault = 1.0
 )
 
+// LB variables for dual-stack
+var (
+	// Service.Spec.LoadBalancerIP has been deprecated and may be removed in a future release. Those two annotations are introduced as alternatives to set IPv4/IPv6 LoadBalancer IPs.
+	// Refer https://github.com/kubernetes/api/blob/3638040e4063e0f889c129220cd386497f328276/core/v1/types.go#L4459-L4468 for more details.
+	ServiceAnnotationLoadBalancerIPDualStack = map[bool]string{
+		false: "service.beta.kubernetes.io/azure-load-balancer-ipv4",
+		true:  "service.beta.kubernetes.io/azure-load-balancer-ipv6",
+	}
+)
+
 // load balancer
 const (
 	// PreConfiguredBackendPoolLoadBalancerTypesNone means that the load balancers are not pre-configured
@@ -356,6 +366,14 @@ const (
 	CannotDeletePublicIPErrorMessageCode = "PublicIPAddressCannotBeDeleted"
 	// ReferencedResourceNotProvisionedMessageCode means the referenced resource has not been provisioned
 	ReferencedResourceNotProvisionedMessageCode = "ReferencedResourceNotProvisioned"
+	// ParentResourceNotFoundMessageCode is the error code that the parent VMSS of the VM is not found.
+	ParentResourceNotFoundMessageCode = "ParentResourceNotFound"
+	// ConcurrentRequestConflictMessage is the error message that the request failed due to the conflict with another concurrent operation.
+	ConcurrentRequestConflictMessage = "The request failed due to conflict with a concurrent request."
+	// CannotUpdateVMBeingDeletedMessagePrefix is the prefix of the error message that the request failed due to delete a VM that is being deleted
+	CannotUpdateVMBeingDeletedMessagePrefix = "'Put on Virtual Machine Scale Set VM Instance' is not allowed on Virtual Machine Scale Set"
+	// CannotUpdateVMBeingDeletedMessageSuffix is the suffix of the error message that the request failed due to delete a VM that is being deleted
+	CannotUpdateVMBeingDeletedMessageSuffix = "since it is marked for deletion"
 )
 
 // node ipam controller
@@ -468,4 +486,8 @@ const (
 
 	// Default number of IP configs for PLS
 	PLSDefaultNumOfIPConfig = 1
+)
+
+const (
+	VMSSTagForBatchOperation = "aks-managed-coordination"
 )

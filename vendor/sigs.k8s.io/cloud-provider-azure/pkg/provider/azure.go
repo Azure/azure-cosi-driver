@@ -38,6 +38,7 @@ import (
 	clientset "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/scheme"
 	v1core "k8s.io/client-go/kubernetes/typed/core/v1"
+	corelisters "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/flowcontrol"
@@ -358,6 +359,11 @@ type Cloud struct {
 	pipCache *azcache.TimedCache
 	// use LB frontEndIpConfiguration ID as the key and search for PLS attached to the frontEnd
 	plsCache *azcache.TimedCache
+
+	// Add service lister to always get latest service
+	serviceLister corelisters.ServiceLister
+	// node-sync-loop routine and service-reconcile routine should not update LoadBalancer at the same time
+	serviceReconcileLock sync.Mutex
 
 	*ManagedDiskController
 	*controllerCommon
@@ -729,7 +735,7 @@ func (az *Cloud) configureMultiTenantClients(servicePrincipalToken *adal.Service
 	var err error
 	var multiTenantServicePrincipalToken *adal.MultiTenantServicePrincipalToken
 	var networkResourceServicePrincipalToken *adal.ServicePrincipalToken
-	if az.Config.UsesNetworkResourceInDifferentTenantOrSubscription() {
+	if az.Config.UsesNetworkResourceInDifferentTenant() {
 		multiTenantServicePrincipalToken, err = auth.GetMultiTenantServicePrincipalToken(&az.Config.AzureAuthConfig, &az.Environment)
 		if err != nil {
 			return err
@@ -839,7 +845,9 @@ func (az *Cloud) configAzureClients(
 		loadBalancerClientConfig.Authorizer = networkResourceServicePrincipalTokenAuthorizer
 		securityGroupClientConfig.Authorizer = networkResourceServicePrincipalTokenAuthorizer
 		publicIPClientConfig.Authorizer = networkResourceServicePrincipalTokenAuthorizer
+	}
 
+	if az.UsesNetworkResourceInDifferentSubscription() {
 		routeClientConfig.SubscriptionID = az.Config.NetworkResourceSubscriptionID
 		subnetClientConfig.SubscriptionID = az.Config.NetworkResourceSubscriptionID
 		routeTableClientConfig.SubscriptionID = az.Config.NetworkResourceSubscriptionID
@@ -1056,9 +1064,14 @@ func (az *Cloud) SetInformers(informerFactory informers.SharedInformerFactory) {
 				}
 			}
 			az.updateNodeCaches(node, nil)
+
+			klog.V(4).Infof("Removing node %s from VMSet cache.", node.Name)
+			_ = az.VMSet.DeleteCacheForNode(node.Name)
 		},
 	})
 	az.nodeInformerSynced = nodeInformer.HasSynced
+
+	az.serviceLister = informerFactory.Core().V1().Services().Lister()
 }
 
 // updateNodeCaches updates local cache for node's zones and external resource groups.
