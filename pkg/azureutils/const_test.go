@@ -2,8 +2,8 @@ package azureutils
 
 import (
 	"fmt"
-	"Azure/azure-cosi-driver/pkg/constant"
-	"Azure/azure-cosi-driver/pkg/types"
+	"github.com/Azure/azure-cosi-driver/pkg/constant"
+	"github.com/Azure/azure-cosi-driver/pkg/types"
 	"reflect"
 	"testing"
 

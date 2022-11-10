@@ -30,7 +30,7 @@ import (
 
 	"sigs.k8s.io/cloud-provider-azure/pkg/consts"
 
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-07-01/compute"
+	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-03-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-08-01/network"
 	"github.com/Azure/go-autorest/autorest/to"
 
@@ -106,7 +106,7 @@ func (az *Cloud) getLoadBalancerProbeID(lbName, rgName, lbRuleName string) strin
 
 // getNetworkResourceSubscriptionID returns the subscription id which hosts network resources
 func (az *Cloud) getNetworkResourceSubscriptionID() string {
-	if az.Config.UsesNetworkResourceInDifferentTenantOrSubscription() {
+	if az.Config.UsesNetworkResourceInDifferentSubscription() {
 		return az.NetworkResourceSubscriptionID
 	}
 	return az.SubscriptionID
@@ -352,7 +352,7 @@ func (az *Cloud) serviceOwnsFrontendIP(fip network.FrontendIPConfiguration, serv
 		return true, isPrimaryService, nil
 	}
 
-	loadBalancerIP := service.Spec.LoadBalancerIP
+	loadBalancerIP := getServiceLoadBalancerIP(service)
 	if loadBalancerIP == "" {
 		// it is a must that the secondary services set the loadBalancer IP
 		return false, isPrimaryService, nil
@@ -534,9 +534,9 @@ func (as *availabilitySet) GetInstanceIDByNodeName(name string) (string, error) 
 	}
 
 	resourceID := *machine.ID
-	convertedResourceID, err := convertResourceGroupNameToLower(resourceID)
+	convertedResourceID, err := ConvertResourceGroupNameToLower(resourceID)
 	if err != nil {
-		klog.Errorf("convertResourceGroupNameToLower failed with error: %v", err)
+		klog.Errorf("ConvertResourceGroupNameToLower failed with error: %v", err)
 		return "", err
 	}
 	return convertedResourceID, nil

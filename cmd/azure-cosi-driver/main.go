@@ -15,9 +15,9 @@ package main
 
 import (
 	"flag"
-	"Azure/azure-cosi-driver/pkg/driver"
-	identityserver "Azure/azure-cosi-driver/pkg/server/identity"
-	provisionerserver "Azure/azure-cosi-driver/pkg/server/provisioner"
+	"github.com/Azure/azure-cosi-driver/pkg/driver"
+	identityserver "github.com/Azure/azure-cosi-driver/pkg/server/identity"
+	provisionerserver "github.com/Azure/azure-cosi-driver/pkg/server/provisioner"
 
 	"k8s.io/klog"
 )

@@ -16,8 +16,8 @@ package provisionerserver
 import (
 	"context"
 	"fmt"
-	"Azure/azure-cosi-driver/pkg/azureutils"
-	"Azure/azure-cosi-driver/pkg/constant"
+	"github.com/Azure/azure-cosi-driver/pkg/azureutils"
+	"github.com/Azure/azure-cosi-driver/pkg/constant"
 	"reflect"
 	"sync"
 

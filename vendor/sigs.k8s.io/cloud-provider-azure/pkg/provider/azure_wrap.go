@@ -23,7 +23,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2021-07-01/compute"
+	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2022-03-01/compute"
 	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2021-08-01/network"
 	"github.com/Azure/go-autorest/autorest/to"
 
@@ -405,8 +405,8 @@ func (az *Cloud) IsNodeUnmanagedByProviderID(providerID string) bool {
 	return !azureNodeProviderIDRE.Match([]byte(providerID))
 }
 
-// convertResourceGroupNameToLower converts the resource group name in the resource ID to be lowered.
-func convertResourceGroupNameToLower(resourceID string) (string, error) {
+// ConvertResourceGroupNameToLower converts the resource group name in the resource ID to be lowered.
+func ConvertResourceGroupNameToLower(resourceID string) (string, error) {
 	matches := azureResourceGroupNameRE.FindStringSubmatch(resourceID)
 	if len(matches) != 2 {
 		return "", fmt.Errorf("%q isn't in Azure resource ID format %q", resourceID, azureResourceGroupNameRE.String())
