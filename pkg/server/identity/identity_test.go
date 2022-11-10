@@ -2,7 +2,7 @@ package identityserver
 
 import (
 	"context"
-	"Azure/azure-cosi-driver/pkg/constant"
+	"github.com/Azure/azure-cosi-driver/pkg/constant"
 	"reflect"
 	"testing"
 

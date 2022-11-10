@@ -21,8 +21,8 @@ import (
 	"reflect"
 	"testing"
 
-	"Azure/azure-cosi-driver/pkg/constant"
-	"Azure/azure-cosi-driver/pkg/types"
+	"github.com/Azure/azure-cosi-driver/pkg/constant"
+	"github.com/Azure/azure-cosi-driver/pkg/types"
 
 	"github.com/Azure/azure-sdk-for-go/services/storage/mgmt/2021-09-01/storage"
 	"github.com/Azure/go-autorest/autorest/to"

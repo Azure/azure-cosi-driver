@@ -17,7 +17,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"Azure/azure-cosi-driver/pkg/types"
+	"github.com/Azure/azure-cosi-driver/pkg/types"
 	"regexp"
 	"time"
 
