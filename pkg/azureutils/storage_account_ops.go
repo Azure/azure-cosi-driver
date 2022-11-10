@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/sas"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"Azure/azure-cosi-driver/pkg/types"
+	"github.com/Azure/azure-cosi-driver/pkg/types"
 	azure "sigs.k8s.io/cloud-provider-azure/pkg/provider"
 )
 
