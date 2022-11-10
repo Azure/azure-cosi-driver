@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: azure-cosi-driver
+  labels:
+    app.kubernetes.io/part-of: container-object-storage-interface
+    app.kubernetes.io/component: driver-azure
+    app.kubernetes.io/version: main
+    app.kubernetes.io/name: cosi-driver-azure

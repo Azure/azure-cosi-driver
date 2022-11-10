@@ -1,0 +1,22 @@
+name: Static Checks
+on:
+    pull_request: {}
+    push: {}
+permissions:
+  contents: read
+jobs:
+    go_lint:
+        name: Go Lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Set Go Version
+              uses: actions/setup-go@v3
+              with:
+                go-version: 1.18
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Run linter
+              uses: golangci/golangci-lint-action@v3
+              with:
+                version: v1.48
+                args: -E=gofmt,deadcode,unused,varcheck,ineffassign,revive,misspell,exportloopref,asciicheck,bodyclose,depguard,dogsled,durationcheck,errname,forbidigo -D=staticcheck --timeout=30m0s
