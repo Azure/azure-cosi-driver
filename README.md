@@ -2,14 +2,17 @@
 
 ### Overview
 
-This is a repository for the Container Object Storage Interface Driver [COSI](https://github.com/kubernetes/enhancements/tree/master/keps/sig-storage/1979-object-storage-support)
+This is a repository for the Azure Container Object Storage Interface Driver [COSI](https://github.com/kubernetes/enhancements/tree/master/keps/sig-storage/1979-object-storage-support)
 
+### Driver Parameters
+
+ - please refer to [blob.cosi.azure.com driver parameters](./docs/driver-params.md)
 
 ### Project status: Alpha
 
 ### Install driver on a Kubernetes cluster
 
-- [Set up the driver](./docs/setup-driver.md)
+ - [Set up the driver](./docs/setup-driver.md)
 
 ### Contributing
 
