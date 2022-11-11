@@ -14,7 +14,7 @@
 | resourcegroup | Resource group of the cluster | string | yes   |
 | allowblobaccess |  | true, false | no   |
 | allowsharedaccess |  | true, false | no   |
-| enableblobversioning |  | true, false | no   |
+| enableblobversioning | enable blob versions | true, false | no   |
 | enableblobdeleteretention | [adds retention period for deleted blobs](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable?tabs=azure-CLI) | true, false | no   |
 | blobdeleteretentiondays | days that a blob lasts when deleted | positive int | no   |
 | enablecontainerdeleteretention | [adds retention period for deleted containers](https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-container-enable?tabs=azure-portal)  | true, false | no   |
@@ -25,7 +25,7 @@
 |----------------|---------|-----------------|-----------|
 | bucketunittype | Decide whether the bucket is a container or a storage account | container, storageaccount | yes   |
 | signedversion | Signed storage service version (has default value) | 2015-04-05 or later | no   |
-| signedip | specified ip address, or range of ip addresses to accept requests |  | no   |
+| signedip | specified ip address, or range of ip addresses to accept requests | ip1-ip2 (ip2 is optional) | no   |
 | validationperiod | how long the token lasts (ms) | uint64(default 7 days) | no   |
 | signedprotocol | determins protocol used | "https", "https,http"(default) | no   |
 | enablelist | enables list access | true(default), false | no   |
