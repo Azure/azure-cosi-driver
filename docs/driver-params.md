@@ -27,7 +27,7 @@
 | signedversion | Signed storage service version (has default value) | 2015-04-05 or later | no   |
 | signedip | specified ip address, or range of ip addresses to accept requests | ip1-ip2 (ip2 is optional) | no   |
 | validationperiod | how long the token lasts (ms) | uint64(default 7 days) | no   |
-| signedprotocol | determins protocol used | "https", "https,http"(default) | no   |
+| signedprotocol | determines protocol used | "https", "https,http"(default) | no   |
 | enablelist | enables list access | true(default), false | no   |
 | enableread | enables read access | true(default), false | no   |
 | enablewrite | enables write access | true, false | no   |
