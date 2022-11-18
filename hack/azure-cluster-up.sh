@@ -1,4 +1,4 @@
-while getopts "n:r:l:s:" flag;do
+while getopts "n:r:l:s:v:" flag;do
     case "${flag}" in
         n) 
             CLUSTER_NAME=$OPTARG
@@ -16,6 +16,10 @@ while getopts "n:r:l:s:" flag;do
             SUBSCRIPTION_ID=$OPTARG
             echo "Subscription ID: $SUBSCRIPTION_ID"
             ;;
+        v) 
+            VERSION=$OPTARG
+            echo "version: $VERSION"
+            ;;
     esac
 done
 
@@ -26,13 +30,14 @@ if [ -z $CLUSTER_NAME ]; then
     echo "Error: Missing argument Cluster Name (flag -n)"
     exit 1
 fi
+
 if [ -z $RESOURCE_GROUP ]; then
     echo "Error: Missing argument Resource Group Name (flag -r)"
     exit 1
 fi
 
 if [ -z $SUBSCRIPTION_ID ]; then
-    echo "Subscription ID (flag -s) no given, getting subID from current context"
+    echo "Subscription ID (flag -s) not given, getting subID from current context"
     SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 fi
 
@@ -62,5 +67,8 @@ echo -e "\nGetting Credentials for Cluster $CLUSTER_NAME"
 az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
 echo -e "\n"
 
-DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
-source "$DRIVER_NAME/cosi-install.sh"
+if [ $VERSION = "local" ] || [ $VERSION = "push" ];
+then
+    DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
+    source "$DRIVER_NAME/cosi-install.sh -v $VERSION"
+fi
