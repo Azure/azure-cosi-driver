@@ -68,7 +68,7 @@ echo -e "\nSpinning up Azure Kubernetes Cluster $CLUSTER_NAME"
 az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --enable-addons monitoring --generate-ssh-keys --service-principal $username --client-secret $password
 
 echo -e "\nGetting Credentials for Cluster $CLUSTER_NAME"
-az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
+az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing
 echo -e "\n"
 
 if [ $VERSION = "local" ] || [ $VERSION = "push" ];
