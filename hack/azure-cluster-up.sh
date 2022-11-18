@@ -41,6 +41,10 @@ if [ -z $SUBSCRIPTION_ID ]; then
     SUBSCRIPTION_ID=$(az account show --query id --output tsv)
 fi
 
+if [ -z $VERSION ]; then
+    VERSION=""
+fi
+
 echo -e "\nChecking if Resource Group $RESOURCE_GROUP Exists"
 if [ $(az group exists -n $RESOURCE_GROUP) = true ];
 then
