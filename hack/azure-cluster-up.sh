@@ -1,3 +1,4 @@
+#!/bin/bash
 while getopts "n:r:l:s:v:" flag;do
     case "${flag}" in
         n) 
@@ -20,6 +21,9 @@ while getopts "n:r:l:s:v:" flag;do
             VERSION=$OPTARG
             echo "version: $VERSION"
             ;;
+        *)
+            echo "Unknown argument $OPTARG
+            ;;"
     esac
 done
 
