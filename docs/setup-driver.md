@@ -12,6 +12,19 @@ curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack
 ```console
 curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/cosi-install.sh | bash
 ```
+
+ - Uninstall Driver and Delete Cluster
+ 
+```console
+ curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/{cosi-uninstall.sh,azure-cluster-down.sh} | bash -s -- -n <cluster-name> -r <resourge-group>
+```
+
+ - Uninstall Driver
+ 
+```console
+ curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/cosi-uninstall.sh | bash
+```
+
 ## Locally Install with Required CRDs and Controller with Shell Script
 
 ### Clone the COSI repo
