@@ -22,8 +22,8 @@ while getopts "n:r:l:s:v:" flag;do
             echo "version: $VERSION"
             ;;
         *)
-            echo "Unknown argument $OPTARG
-            ;;"
+            echo "Unknown argument $OPTARG"
+            ;;
     esac
 done
 

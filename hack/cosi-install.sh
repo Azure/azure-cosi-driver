@@ -6,8 +6,8 @@ while getopts "v:" flag;do
             echo "Version: $VERSION"
             ;;
         *)
-            echo "Unknown argument $OPTARG
-            ;;"
+            echo "Unknown argument $OPTARG"
+            ;;
     esac
 done
 
@@ -23,7 +23,7 @@ echo -e "\nInstalling COSI Driver and Sidecar"
 
 if [ $VERSION = "local" ] || [ $VERSION = "push" ];  then
     DRIVER_NAME=$(dirname $(dirname "$(realpath ${BASH_SOURCE[0]})"))
-    cd $DRIVER_NAME
+    cd $DRIVER_NAME || exit
     echo $(pwd)
 fi
 
