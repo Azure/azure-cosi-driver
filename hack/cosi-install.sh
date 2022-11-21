@@ -47,4 +47,5 @@ then
     kubectl create -k ./. 
 else
     kubectl create -k github.com/Azure/azure-cosi-driver
+fi
 echo -e "\n"
