@@ -22,7 +22,7 @@ kubectl create -k github.com/kubernetes-sigs/container-object-storage-interface-
 echo -e "\nInstalling COSI Driver and Sidecar"
 
 if [ $VERSION = "local" ] || [ $VERSION = "push" ];  then
-    DRIVER_NAME="$(dirname $(dirname "$(realpath ${BASH_SOURCE[0]})"))"
+    DRIVER_NAME="$(dirname "$(dirname "$(realpath ${BASH_SOURCE[0]})")")"
     cd $DRIVER_NAME || exit
     echo "$(pwd)"
 fi
