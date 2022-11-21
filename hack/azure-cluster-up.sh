@@ -77,6 +77,7 @@ echo -e "\n"
 
 if [ $VERSION = "local" ] || [ $VERSION = "push" ];
 then
-    DRIVER_NAME="$(dirname "$(realpath ${BASH_SOURCE[0]})")"
+    DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
+    # shellcheck source ./hack/cosi-install.sh
     source "$DRIVER_NAME/cosi-install.sh -v $VERSION"
 fi
