@@ -46,13 +46,13 @@ if [ -z $VERSION ]; then
 fi
 
 echo -e "\nChecking if Resource Group $RESOURCE_GROUP Exists"
-if [ $(az group exists -n $RESOURCE_GROUP) = true ];
+if [ "$(az group exists -n "${RESOURCE_GROUP}")" = true ];
 then
     echo "$RESOURCE_GROUP exists"
 else
     echo "$RESOURCE_GROUP does not exist"
     echo "Creating new Resource Group $RESOURCE_GROUP"
-    if [ -z $LOCATION]; then
+    if [ -z $LOCATION ]; then
         echo "Error: Cannot create Resource group without Location (flag -l)"
         exit 1
     fi

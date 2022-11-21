@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"net/http"
 	"github.com/Azure/azure-cosi-driver/pkg/constant"
 	"github.com/Azure/azure-cosi-driver/pkg/types"
+	"net/http"
 	"reflect"
 	"testing"
 
