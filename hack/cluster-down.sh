@@ -30,4 +30,4 @@ echo -e "\nDeleting Service Principal $service_principal"
 az ad sp delete --id $service_principal
 
 echo -e "\nDeleting Cluster $CLUSTER_NAME from Resource Group $RESOURCE_GROUP"
-az aks delete --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
+az aks delete --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP --yes
