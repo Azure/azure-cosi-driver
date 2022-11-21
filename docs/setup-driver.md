@@ -5,12 +5,12 @@
  - Create New Cluster and Install
  
 ```console
-curl -skSL https://raw.githubusercontent.com/aarongalang/azure-cosi-driver/remote-install/hack/{azure-cluster-up.sh,cosi-install.sh} | bash -s -- -n <cluster-name> -r <resourge-group> -s <subscription-id>
+curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/{azure-cluster-up.sh,cosi-install.sh} | bash -s -- -n <cluster-name> -r <resourge-group> -s <subscription-id>
 ```
  - Install Driver without creating new Cluster
  
 ```console
-curl -skSL https://raw.githubusercontent.com/aarongalang/azure-cosi-driver/remote-install/hack/cosi-install.sh | bash
+curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/cosi-install.sh | bash
 ```
 ## Locally Install with Required CRDs and Controller with Shell Script
 
