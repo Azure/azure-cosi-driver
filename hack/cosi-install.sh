@@ -7,6 +7,10 @@ while getopts "v:" flag;do
     esac
 done
 
+if [ -z $VERSION ]; then
+    VERSION="remote"
+fi
+
 echo "Getting CRD's for COSI and COSI Controller"
 kubectl create -k github.com/kubernetes-sigs/container-object-storage-interface-api
 kubectl create -k github.com/kubernetes-sigs/container-object-storage-interface-controller
