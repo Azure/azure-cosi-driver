@@ -12,8 +12,9 @@ while getopts "v:" flag;do
 done
 
 if [ -z $VERSION ]; then
-    VERSION="remote"
+    VERSION="master"
 fi
+echo "VERSION: $VERSION\n"
 
 echo "Getting CRD's for COSI and COSI Controller"
 kubectl create -k github.com/kubernetes-sigs/container-object-storage-interface-api
@@ -50,6 +51,6 @@ if [ $VERSION = "local" ] || [ $VERSION = "push" ];
 then
     kubectl create -k ./. 
 else
-    kubectl create -k github.com/Azure/azure-cosi-driver
+    kubectl create -k github.com/Azure/azure-cosi-driver/tree/$VERSION
 fi
 echo -e "\n"

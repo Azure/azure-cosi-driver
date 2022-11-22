@@ -46,7 +46,7 @@ if [ -z $SUBSCRIPTION_ID ]; then
 fi
 
 if [ -z $VERSION ]; then
-    VERSION="remote"
+    VERSION="master"
 fi
 
 echo -e "\nChecking if Resource Group $RESOURCE_GROUP Exists"
