@@ -74,10 +74,3 @@ az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --enable-add
 echo -e "\nGetting Credentials for Cluster $CLUSTER_NAME"
 az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --overwrite-existing
 echo -e "\n"
-
-if [ $VERSION = "local" ] || [ $VERSION = "push" ];
-then
-    DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
-    # shellcheck source=./hack/cosi-install.sh
-    source "$DRIVER_NAME/cosi-install.sh -v $VERSION"
-fi
