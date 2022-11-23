@@ -51,6 +51,6 @@ if [ $VERSION = "local" ] || [ $VERSION = "push" ];
 then
     kubectl create -k ./. 
 else
-    kubectl create -k github.com/Azure/azure-cosi-driver/tree/$VERSION
+    kubectl create -k github.com/Azure/azure-cosi-driver/?ref=$VERSION?
 fi
 echo -e "\n"
