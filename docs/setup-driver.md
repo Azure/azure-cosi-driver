@@ -5,12 +5,12 @@
  - Create New Cluster and Install
  
 ```console
-curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/{azure-cluster-up.sh,cosi-install.sh} | bash -s -- -n <cluster-name> -r <resourge-group> -s <subscription-id>
+curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/{azure-cluster-up.sh,cosi-install.sh} | bash -s -- -n <cluster-name> -r <resourge-group> -s <subscription-id> -v <version/branch>
 ```
  - Install Driver without creating new Cluster
  
 ```console
-curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/cosi-install.sh | bash
+curl -skSL https://raw.githubusercontent.com/Azure/azure-cosi-driver/master/hack/cosi-install.sh | bash -v <version/branch>
 ```
 
  - Uninstall Driver and Delete Cluster
