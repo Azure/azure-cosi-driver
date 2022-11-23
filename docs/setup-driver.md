@@ -38,7 +38,7 @@ git@github.com:Azure/azure-cosi-driver.git
  - Create New Cluster and Install
  
  ```console
- ./hack/cosi-azure-cluster-up.sh -n <cluster_name> -r <resource_group> -s <subscription_id>
+ ./hack/setup.sh -n <cluster_name> -r <resource_group> -s <subscription_id>
  ```
 
  - Install Driver without creating new Cluster
