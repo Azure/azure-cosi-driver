@@ -55,4 +55,4 @@ else
 fi
 
 echo -e "\nrunning cosi-install.sh"
-source "$DRIVER_NAME/cosi-install.sh"
+source "$DRIVER_NAME/cosi-install.sh" -v $VERSION
