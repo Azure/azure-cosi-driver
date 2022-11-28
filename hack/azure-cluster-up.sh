@@ -85,8 +85,6 @@ else
     if [ $VERSION = "local" ] || [ $VERSION = "push" ]; 
     then
         DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
-        $AZURE_SP_USERNAME_FILE=$(mktemp -t $DRIVER_NAME/azure_username.XXXXXXX)
-        $AZURE_SP_USERNAME_FILE=$(mktemp -t $DRIVER_NAME/azure_password.XXXXXXX)
         echo "$username" > "$AZURE_SP_USERNAME_FILE"
         echo "$password" > "$AZURE_SP_PASSWORD_FILE"
     fi
