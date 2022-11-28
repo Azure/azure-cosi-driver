@@ -69,9 +69,8 @@ if [[ -z ${OUTPUT_DIR:-} ]]; then
 fi
 mkdir -p "$OUTPUT_DIR"
 
-$AZURE_CLIENT_NAME="${CLUSTER_NAME}-sp"
-$AZURE_SP_USERNAME_FILE="$OUTPUT_DIR/$AZURE_CLIENT_NAME.username"
-$AZURE_SP_PASSWORD_FILE="$OUTPUT_DIR/$AZURE_CLIENT_NAME.password"
+AZURE_SP_USERNAME_FILE="$OUTPUT_DIR/sp-username"
+AZURE_SP_PASSWORD_FILE="$OUTPUT_DIR/sp-password"
 if [ -e "$AZURE_SP_USERNAME_FILE" ] && [ -e "$AZURE_SP_PASSWORD_FILE" ];
 then
     echo -e "\nGrabbing Previous Service Principal"
