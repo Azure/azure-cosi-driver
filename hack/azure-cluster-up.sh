@@ -76,6 +76,7 @@ then
     echo -e "\nGrabbing Previous Service Principal"
     username=$(cat "$AZURE_SP_USERNAME_FILE")
     password=$(cat "$AZURE_SP_PASSWORD_FILE")
+    echo -e "\nUsername: $username"
 else
     echo -e "\nCreating Service Principal"
     sp=$(az ad sp create-for-rbac --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP --role Contributor)
