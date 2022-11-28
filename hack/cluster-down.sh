@@ -1,3 +1,4 @@
+#!/bin/bash
 while getopts "n:r:" flag;do
     case "${flag}" in
         n) 
@@ -7,6 +8,9 @@ while getopts "n:r:" flag;do
         r) 
             RESOURCE_GROUP=$OPTARG
             echo "Resource Group: $RESOURCE_GROUP"
+            ;;
+        *)
+            echo "Unknown argument $OPTARG"
             ;;
     esac
 done
@@ -26,4 +30,4 @@ echo -e "\nDeleting Service Principal $service_principal"
 az ad sp delete --id $service_principal
 
 echo -e "\nDeleting Cluster $CLUSTER_NAME from Resource Group $RESOURCE_GROUP"
-az aks delete --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
+az aks delete --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP --yes
