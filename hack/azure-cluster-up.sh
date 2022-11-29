@@ -63,14 +63,18 @@ else
     az group create -l $LOCATION -n $RESOURCE_GROUP
 fi
 
-GIT_ROOT=$(git rev-parse --show-toplevel)
-if [[ -z ${OUTPUT_DIR:-} ]]; then
-  OUTPUT_DIR="$GIT_ROOT/_output/$CLUSTER_NAME"
-fi
-mkdir -p "$OUTPUT_DIR"
+if [ $VERSION = "local" ] || [ $VERSION = "push" ]; 
+then   
+    GIT_ROOT=$(git rev-parse --show-toplevel)
+    if [[ -z ${OUTPUT_DIR:-} ]]; then
+    OUTPUT_DIR="$GIT_ROOT/_output"
+    fi
+    mkdir -p "$OUTPUT_DIR"
 
-AZURE_SP_USERNAME_FILE="$OUTPUT_DIR/sp-username"
-AZURE_SP_PASSWORD_FILE="$OUTPUT_DIR/sp-password"
+    AZURE_SP_USERNAME_FILE="$OUTPUT_DIR/sp-username"
+    AZURE_SP_PASSWORD_FILE="$OUTPUT_DIR/sp-password"
+fi
+
 if [ -e "$AZURE_SP_USERNAME_FILE" ] && [ -e "$AZURE_SP_PASSWORD_FILE" ];
 then
     echo -e "\nGrabbing Previous Service Principal"
@@ -84,7 +88,6 @@ else
     password=$(jq -r '.password' <<< "$sp")
     if [ $VERSION = "local" ] || [ $VERSION = "push" ]; 
     then
-        DRIVER_NAME=$(dirname "$(realpath ${BASH_SOURCE[0]})")
         echo "$username" > "$AZURE_SP_USERNAME_FILE"
         echo "$password" > "$AZURE_SP_PASSWORD_FILE"
     fi
