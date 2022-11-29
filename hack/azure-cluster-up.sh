@@ -63,10 +63,35 @@ else
     az group create -l $LOCATION -n $RESOURCE_GROUP
 fi
 
-echo -e "\nCreating Service Principal"
-sp=$(az ad sp create-for-rbac --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP --role Contributor)
-username=$(jq -r '.appId' <<< "$sp")
-password=$(jq -r '.password' <<< "$sp")
+if [ $VERSION = "local" ] || [ $VERSION = "push" ]; 
+then   
+    GIT_ROOT=$(git rev-parse --show-toplevel)
+    if [[ -z ${OUTPUT_DIR:-} ]]; then
+    OUTPUT_DIR="$GIT_ROOT/_output"
+    fi
+    mkdir -p "$OUTPUT_DIR"
+
+    AZURE_SP_USERNAME_FILE="$OUTPUT_DIR/sp-username"
+    AZURE_SP_PASSWORD_FILE="$OUTPUT_DIR/sp-password"
+fi
+
+if [ -e "$AZURE_SP_USERNAME_FILE" ] && [ -e "$AZURE_SP_PASSWORD_FILE" ];
+then
+    echo -e "\nGrabbing Previous Service Principal"
+    username=$(cat "$AZURE_SP_USERNAME_FILE")
+    password=$(cat "$AZURE_SP_PASSWORD_FILE")
+    echo -e "\nUsername: $username"
+else
+    echo -e "\nCreating Service Principal"
+    sp=$(az ad sp create-for-rbac --scopes /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP --role Contributor)
+    username=$(jq -r '.appId' <<< "$sp")
+    password=$(jq -r '.password' <<< "$sp")
+    if [ $VERSION = "local" ] || [ $VERSION = "push" ]; 
+    then
+        echo "$username" > "$AZURE_SP_USERNAME_FILE"
+        echo "$password" > "$AZURE_SP_PASSWORD_FILE"
+    fi
+fi
 
 echo -e "\nSpinning up Azure Kubernetes Cluster $CLUSTER_NAME"
 az aks create --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --enable-addons monitoring --generate-ssh-keys --service-principal $username --client-secret $password
