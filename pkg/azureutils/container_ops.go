@@ -94,7 +94,7 @@ func DeleteContainerBucket(
 }
 
 func getStorageAccountNameFromContainerURL(containerURL string) string {
-	storageAccountName, _, _, err := parsecontainerurl(containerURL)
+	storageAccountName, _, _, err := parseContainerURL(containerURL)
 	if err != nil {
 		return ""
 	}
@@ -103,7 +103,7 @@ func getStorageAccountNameFromContainerURL(containerURL string) string {
 }
 
 func getContainerNameFromContainerURL(containerURL string) string {
-	_, containerName, _, err := parsecontainerurl(containerURL)
+	_, containerName, _, err := parseContainerURL(containerURL)
 	if err != nil {
 		return ""
 	}
@@ -143,11 +143,11 @@ func createContainerClient(
 	return containerClient, err
 }
 
-func parsecontainerurl(containerURL string) (string, string, string, error) {
+func parseContainerURL(containerURL string) (string, string, string, error) {
 	matches := storageAccountRE.FindStringSubmatch(containerURL)
 	if len(matches) < 2 {
 		errStr := fmt.Sprintf("Invalid URL has been passed: %s", containerURL)
-		klog.Errorf("Error in parsecontainerurl :: %s", errStr)
+		klog.Errorf("Error in parseContainerURL :: %s", errStr)
 		return "", "", "", errors.New(errStr)
 	}
 
@@ -209,7 +209,7 @@ func createContainerSASURL(ctx context.Context, bucketID string, parameters *Buc
 	permission.Delete = parameters.enableDelete
 	permission.DeletePreviousVersion = parameters.enablePermanentDelete
 	permission.Add = parameters.enableAdd
-	permission.Tag = parameters.enableTags
+	permission.FilterByTags = parameters.enableTags
 
 	start := time.Now()
 	expiry := start.Add(time.Millisecond * time.Duration(parameters.validationPeriod))

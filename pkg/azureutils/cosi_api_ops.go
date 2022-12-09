@@ -55,7 +55,6 @@ YYYY-MM-DDThh:mm<TZDSuffix>
 YYYY-MM-DDThh:mm:ss<TZDSuffix>
 */
 type BucketAccessClassParameters struct {
-	bucketUnitType                   constant.BucketUnitType
 	storageAccountName               string
 	region                           string
 	signedversion                    string
@@ -107,7 +106,7 @@ func DeleteBucket(ctx context.Context,
 
 	//determine if the bucket is an account or a blob container
 	klog.Info("Parsing Bucket URL")
-	account, container, blob, err := parsecontainerurl(id.URL)
+	account, container, blob, err := parseContainerURL(id.URL)
 	if err != nil {
 		klog.Errorf("Error: %v parsing url: %s", err, id.URL)
 		return err
@@ -143,7 +142,16 @@ func CreateBucketSASURL(ctx context.Context, bucketID string, parameters map[str
 	}
 	url := id.URL
 
+	var bucketUnitType constant.BucketUnitType
 	storageAccountName := getStorageAccountNameFromContainerURL(url)
+	if storageAccountName != "" {
+		bucketUnitType = constant.StorageAccount
+	}
+
+	if getContainerNameFromContainerURL(url) != "" {
+		bucketUnitType = constant.Container
+	}
+
 	subsID := id.SubID
 	resourceGroup := id.ResourceGroup
 
@@ -152,14 +160,14 @@ func CreateBucketSASURL(ctx context.Context, bucketID string, parameters map[str
 		return "", "", err
 	}
 
-	switch bucketAccessClassParams.bucketUnitType {
-	case constant.Container:
+	if bucketUnitType == constant.Container {
 		klog.Info("Creating a Container SAS")
 		return createContainerSASURL(ctx, url, bucketAccessClassParams, key)
-	case constant.StorageAccount:
+	} else if bucketUnitType == constant.StorageAccount {
 		klog.Info("Creating an Account SAS")
 		return createAccountSASURL(ctx, url, bucketAccessClassParams, key)
 	}
+
 	return "", "", status.Error(codes.InvalidArgument, "invalid bucket type")
 }
 
@@ -334,18 +342,6 @@ func parseBucketAccessClassParameters(parameters map[string]string) (*BucketAcce
 	}
 	for k, v := range parameters {
 		switch strings.ToLower(k) {
-		case constant.BucketUnitTypeField:
-			//determine unit type and set to container as default if blank
-			switch strings.ToLower(v) {
-			case "container":
-				BACParams.bucketUnitType = constant.Container
-			case "":
-				BACParams.bucketUnitType = constant.Container
-			case "storageaccount":
-				BACParams.bucketUnitType = constant.StorageAccount
-			default:
-				return nil, status.Error(codes.InvalidArgument, fmt.Sprintf("Invalid BucketUnitType %s", v))
-			}
 		case constant.StorageAccountNameField:
 			BACParams.storageAccountName = v
 		case constant.RegionField:
