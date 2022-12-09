@@ -27,7 +27,8 @@ type SKU int
 type Kind int
 
 const (
-	Container BucketUnitType = iota
+	None BucketUnitType = iota
+	Container
 	StorageAccount
 )
 

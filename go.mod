@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/Azure/azure-sdk-for-go v67.0.0+incompatible
-	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v0.5.1
+	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v0.6.0
 	github.com/Azure/go-autorest/autorest/to v0.4.0
 	github.com/golang/mock v1.6.0
 	google.golang.org/grpc v1.50.1

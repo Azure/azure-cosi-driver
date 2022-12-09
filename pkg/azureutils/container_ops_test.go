@@ -115,7 +115,7 @@ func TestParseContainerURL(t *testing.T) {
 		},
 	}
 	for _, test := range tests {
-		acc, con, blob, err := parsecontainerurl(test.url)
+		acc, con, blob, err := parseContainerURL(test.url)
 		if err != nil {
 			t.Errorf("Error: %v parsing URL: %s", err, test.url)
 		}
