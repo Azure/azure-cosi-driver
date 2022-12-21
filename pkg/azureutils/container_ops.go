@@ -196,7 +196,15 @@ func createAzureContainer(
 }
 
 func createContainerSASURL(ctx context.Context, bucketID string, parameters *BucketAccessClassParameters, accountKey string) (string, string, error) {
-	account := getStorageAccountNameFromContainerURL(bucketID)
+	account, containerName, _, err := parseContainerURL(bucketID)
+	if err != nil {
+		return "", "", err
+	}
+
+	if containerName == "" {
+		return "", "", fmt.Errorf("Error in createContainerSASURL as containerName is empty for bucketID: %s", bucketID)
+	}
+
 	cred, err := container.NewSharedKeyCredential(account, accountKey)
 	if err != nil {
 		return "", "", err
@@ -215,12 +223,13 @@ func createContainerSASURL(ctx context.Context, bucketID string, parameters *Buc
 	expiry := start.Add(time.Millisecond * time.Duration(parameters.validationPeriod))
 
 	sasQueryParams, err := sas.BlobSignatureValues{
-		Protocol:    sas.Protocol(parameters.signedProtocol),
-		StartTime:   start,
-		ExpiryTime:  expiry,
-		Permissions: permission.String(),
-		IPRange:     sas.IPRange(parameters.signedIP),
-		Version:     parameters.signedversion,
+		Protocol:      sas.Protocol(parameters.signedProtocol),
+		StartTime:     start,
+		ExpiryTime:    expiry,
+		Permissions:   permission.String(),
+		IPRange:       sas.IPRange(parameters.signedIP),
+		Version:       parameters.signedversion,
+		ContainerName: containerName,
 	}.SignWithSharedKey(cred)
 
 	if err != nil {
@@ -228,7 +237,7 @@ func createContainerSASURL(ctx context.Context, bucketID string, parameters *Buc
 	}
 
 	queryParams := sasQueryParams.Encode()
-	sasURL := fmt.Sprintf("%s?%s", bucketID, queryParams)
 	accountID := fmt.Sprintf("https://%s.blob.core.windows.net/", account)
+	sasURL := fmt.Sprintf("%s?%s", accountID, queryParams)
 	return sasURL, accountID, nil
 }
